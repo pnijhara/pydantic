@@ -740,7 +740,8 @@ class ModelField(Representation):
         elif self.shape == SHAPE_TUPLE:
             t = 'Tuple[{}]'.format(', '.join(display_as_type(f.type_) for f in self.sub_fields))  # type: ignore
         elif self.shape == SHAPE_GENERIC:
-            assert self.sub_fields
+            if not self.sub_fields:
+                raise AssertionError
             t = '{}[{}]'.format(
                 display_as_type(self.type_), ', '.join(display_as_type(f.type_) for f in self.sub_fields)
             )
